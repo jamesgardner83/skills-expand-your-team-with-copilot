@@ -4,27 +4,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeIcon = themeToggle.querySelector(".theme-icon");
   const themeText = themeToggle.querySelector("span:last-child");
 
+  // Helper function to update theme UI
+  function updateThemeUI(isDark) {
+    if (isDark) {
+      themeIcon.textContent = "☀️";
+      themeText.textContent = "Light Mode";
+    } else {
+      themeIcon.textContent = "🌙";
+      themeText.textContent = "Dark Mode";
+    }
+  }
+
   // Check for saved theme preference or default to light mode
   const currentTheme = localStorage.getItem("theme") || "light";
   if (currentTheme === "dark") {
     document.body.classList.add("dark-mode");
-    themeIcon.textContent = "☀️";
-    themeText.textContent = "Light Mode";
+    updateThemeUI(true);
   }
 
   // Toggle theme on button click
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
-    
-    if (document.body.classList.contains("dark-mode")) {
-      themeIcon.textContent = "☀️";
-      themeText.textContent = "Light Mode";
-      localStorage.setItem("theme", "dark");
-    } else {
-      themeIcon.textContent = "🌙";
-      themeText.textContent = "Dark Mode";
-      localStorage.setItem("theme", "light");
-    }
+    const isDark = document.body.classList.contains("dark-mode");
+    updateThemeUI(isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
   });
 
   // DOM elements
